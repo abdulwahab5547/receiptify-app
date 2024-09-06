@@ -70,7 +70,7 @@ function Profile() {
                 return;
             }
     
-            await axios.put('/api/user', userData, {
+            await axios.put('https://receiptify-backend.vercel.app/api/user', userData, {
                 headers: {
                     Authorization: `Bearer ${token}` // Include token in Authorization header
                 }
