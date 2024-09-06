@@ -26,7 +26,7 @@ function Register({setActiveComponent}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/api/signup', formData);
+            const response = await axios.post('https://receiptify-backend.vercel.app/api/signup', formData);
             toast.success('Account created - hooray!! Time to login!');
             console.log('User created:', response.data);
             setShowLogin(true);
