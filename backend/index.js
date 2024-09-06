@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import multer from "multer";
 import path from "path";
 dotenv.config();
-const app = express()
 import { connect } from 'mongoose'
 import pkg from 'body-parser';
 const { json: _json } = pkg;
@@ -15,7 +14,10 @@ const { sign, verify } = token;
 import { uploadOnCloudinary } from './config/cloudinary.js';
 import sendEmail from './sendEmail.js';
 
+// Initialize express app
+const app = express();
 const router = Router();
+
 app.use(json());
 app.use(_json());
 app.use(cors({
@@ -23,8 +25,8 @@ app.use(cors({
   methods: ["POST", "GET"],
   credentials: true
 }));
-app.use('/api/user', authenticateToken);
-app.use('/api/upload', authenticateToken);
+// app.use('/api/user', authenticateToken);
+// app.use('/api/upload', authenticateToken);
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -248,13 +250,16 @@ router.post('/signup', async (req, res) => {
     }
 });
 
+app.use('/api/user', authenticateToken);
+app.use('/api/upload', authenticateToken);
+
 const uri = process.env.MONGODB_URL;
 
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.send('Hello receiptify!')
 })
 
-app.get('/receiptify', (req, res) => {
+router.get('/receiptify', (req, res) => {
     res.send('Hello receiptify receiptify receiptify!')
   })
 
@@ -274,4 +279,4 @@ connect(uri)
     console.error('Error connecting to MongoDB:', error);
 });
 
-export default router;
+export default app;
