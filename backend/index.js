@@ -62,8 +62,9 @@ function generateToken(user) {
 // const storage = multer.memoryStorage(); // Use memory storage
 // const upload = multer({ storage });
 
+// Use memory storage for serverless compatibility
 const storage = multer.memoryStorage();
-const upload = multer({ storage }); 
+const upload = multer({ storage });
 const emailUpload = multer({ storage });
 
 // Endpoint to trigger email sending
@@ -93,8 +94,8 @@ app.post('/send-email', emailUpload.single('receipt'), (req, res) => {
 
 app.post('/upload', authenticateToken, upload.single('file'), async (req, res) => {
   try {
-    const localFilePath = req.file.path;
-    const result = await uploadOnCloudinary(localFilePath);
+    const fileBuffer = req.file.buffer; // Get the file buffer from memory storage
+    const result = await uploadOnCloudinary(fileBuffer);
 
     if (result) {
       // Update the user's document with the new receipt URL
@@ -111,9 +112,11 @@ app.post('/upload', authenticateToken, upload.single('file'), async (req, res) =
       res.status(500).json({ error: 'Failed to upload to Cloudinary' });
     }
   } catch (error) {
+    console.error('Upload error:', error);
     res.status(500).json({ error: error.message });
   }
 });
+
 
 
 app.post('/api/signup', async (req, res) => {
