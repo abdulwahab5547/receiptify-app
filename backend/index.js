@@ -21,7 +21,7 @@ const router = Router();
 app.use(json());
 app.use(_json());
 app.use(cors({
-  origin: ["https://receiptify-backend.vercel.app", "http://localhost:3000"],
+  origin: ["https://receiptify-app-wine.vercel.app", "http://localhost:3000"],
   methods: ["POST", "GET"],
   credentials: true
 }));
@@ -59,7 +59,7 @@ const memoryStorage = multer.memoryStorage();
 const emailUpload = multer({ storage: memoryStorage });
 
 // Endpoint to trigger email sending
-router.post('/send-email', emailUpload.single('receipt'), (req, res) => {
+app.post('/send-email', emailUpload.single('receipt'), (req, res) => {
   const { email } = req.body;
   const receiptFile = req.file;
 
@@ -83,7 +83,7 @@ router.post('/send-email', emailUpload.single('receipt'), (req, res) => {
 
 // Upload endpoint
 
-router.post('/upload', authenticateToken, upload.single('file'), async (req, res) => {
+app.post('/upload', authenticateToken, upload.single('file'), async (req, res) => {
   try {
     const localFilePath = req.file.path;
     const result = await uploadOnCloudinary(localFilePath);
@@ -108,7 +108,7 @@ router.post('/upload', authenticateToken, upload.single('file'), async (req, res
 });
 
 
-router.post('/api/signup', async (req, res) => {
+app.post('/api/signup', async (req, res) => {
     try {
         const { firstName, lastName, email, password, companyName, companySlogan } = req.body;
         const newUser = new User({ firstName, lastName, email, password, companyName, companySlogan });
@@ -119,7 +119,7 @@ router.post('/api/signup', async (req, res) => {
     }
 });
 
-router.post('/api/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   try {
       const user = await findOne({ email }); // Ensure findOne is correctly querying the user
@@ -157,7 +157,7 @@ function authenticateToken(req, res, next) {
 }
 
 // Example protected route
-router.get('/api/user', authenticateToken, async (req, res) => {
+app.get('/api/user', authenticateToken, async (req, res) => {
   try {
       const user = await findById(req.user.id, 'firstName lastName email password companyName companySlogan'); // Specify the fields you want to retrieve
       if (!user) {
@@ -171,7 +171,7 @@ router.get('/api/user', authenticateToken, async (req, res) => {
 
 // Fetch receipt history
 
-router.get('/api/user/receipts', authenticateToken, async (req, res) => {
+app.get('/api/user/receipts', authenticateToken, async (req, res) => {
   try {
     // Use the user ID from the token
     const user = await User.findById(req.user.id); // Ensure you use req.user.id or req.user._id depending on the token payload
@@ -186,7 +186,7 @@ router.get('/api/user/receipts', authenticateToken, async (req, res) => {
 
 
 // Fetch user details
-router.get('/api/user', authenticateToken, async (req, res) => {
+app.get('/api/user', authenticateToken, async (req, res) => {
     try {
         // Use the user ID from the token
         const user = await findById(req.user.id); // Ensure you use req.user.id or req.user._id depending on the token payload
@@ -200,7 +200,7 @@ router.get('/api/user', authenticateToken, async (req, res) => {
 });
 
 // Update user details
-router.put('/api/user', authenticateToken, async (req, res) => {
+app.put('/api/user', authenticateToken, async (req, res) => {
   try {
       const { firstName, lastName, email, password, companyName, companySlogan } = req.body;
 
@@ -224,7 +224,7 @@ app.get('/create-user', async (req, res) => {
     try {
       const newUser = new User({
         firstName: 'Abdul',
-        secondName: 'Wahab',
+        lastName: 'Wahab',
         email: 'abdulwahab5547@gmail.com',
         password: '545454',
         companyName: 'Abdulify',
@@ -239,7 +239,7 @@ app.get('/create-user', async (req, res) => {
 
 
 // Example route to create a new user
-router.post('/signup', async (req, res) => {
+app.post('/signup', async (req, res) => {
     try {
       const { username, password, companyName, slogan } = req.body;
       const newUser = new User({ username, password, companyName, slogan });
