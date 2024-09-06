@@ -24,7 +24,7 @@ function Profile() {
                     return;
                 }
 
-                const response = await axios.get('http://localhost:8000/api/user', {
+                const response = await axios.get('https://receiptify-backend.vercel.app/api/user', {
                     headers: {
                         Authorization: `Bearer ${token}` // Include token in Authorization header
                     }
@@ -92,7 +92,7 @@ function Profile() {
         const fetchReceipts = async () => {
         try {
             const token = localStorage.getItem('authToken'); // Adjust based on where you store the token
-            const response = await axios.get('http://localhost:8000/api/user/receipts', {
+            const response = await axios.get('https://receiptify-backend.vercel.app/api/user/receipts', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
