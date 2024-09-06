@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/receiptify-app-frontend/static/css/main.aa2615d1.css",
+    "main.js": "/receiptify-app-frontend/static/js/main.3a7c44c0.js",
+    "static/js/453.d40afe59.chunk.js": "/receiptify-app-frontend/static/js/453.d40afe59.chunk.js",
+    "static/media/barcode.png": "/receiptify-app-frontend/static/media/barcode.6bf4f79cf03d6375eab8.png",
+    "static/media/favicon.ico": "/receiptify-app-frontend/static/media/favicon.db97c749dfa114f0576d.ico",
+    "static/media/receipt-logo.png": "/receiptify-app-frontend/static/media/receipt-logo.560520e11e691dd6a558.png",
+    "index.html": "/receiptify-app-frontend/index.html",
+    "main.aa2615d1.css.map": "/receiptify-app-frontend/static/css/main.aa2615d1.css.map",
+    "main.3a7c44c0.js.map": "/receiptify-app-frontend/static/js/main.3a7c44c0.js.map",
+    "453.d40afe59.chunk.js.map": "/receiptify-app-frontend/static/js/453.d40afe59.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.aa2615d1.css",
+    "static/js/main.3a7c44c0.js"
+  ]
+}
