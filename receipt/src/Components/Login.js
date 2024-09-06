@@ -19,7 +19,7 @@ function Login({ setIsLoggedIn, setActiveComponent }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/api/login', formData);
+            const response = await axios.post('https://receiptify-backend.vercel.app//api/login', formData);
             if (response.data.token) {
                 localStorage.setItem('authToken', response.data.token);
                 setIsLoggedIn(true);
