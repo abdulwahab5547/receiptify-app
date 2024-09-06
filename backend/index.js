@@ -46,21 +46,25 @@ function generateToken(user) {
 
 // Multer
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
-});
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'uploads/');
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + '-' + file.originalname);
+//   }
+// });
 
-const upload = multer({ storage });
+// const upload = multer.memoryStorage();
 
-// Multer for email sending
 
-const memoryStorage = multer.memoryStorage();
-const emailUpload = multer({ storage: memoryStorage });
+// // Multer configuration for serverless
+// const storage = multer.memoryStorage(); // Use memory storage
+// const upload = multer({ storage });
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage }); 
+const emailUpload = multer({ storage });
 
 // Endpoint to trigger email sending
 app.post('/send-email', emailUpload.single('receipt'), (req, res) => {
