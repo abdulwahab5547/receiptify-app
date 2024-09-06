@@ -220,7 +220,7 @@ router.put('/api/user', authenticateToken, async (req, res) => {
   }
 });
 
-router.get('/create-user', async (req, res) => {
+app.get('/create-user', async (req, res) => {
     try {
       const newUser = new User({
         firstName: 'Abdul',
@@ -255,11 +255,11 @@ app.use('/api/upload', authenticateToken);
 
 const uri = process.env.MONGODB_URL;
 
-router.get('/', (req, res) => {
+app.get('/', (req, res) => {
   res.send('Hello receiptify!')
 })
 
-router.get('/receiptify', (req, res) => {
+app.get('/receiptify', (req, res) => {
     res.send('Hello receiptify receiptify receiptify!')
   })
 
