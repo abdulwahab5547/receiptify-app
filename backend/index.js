@@ -20,13 +20,17 @@ const router = Router();
 
 app.use(json());
 app.use(_json());
+
 app.use(cors({
-  origin: ["https://receiptify-app-wine.vercel.app", "http://localhost:3000"],
-  methods: ["POST", "GET"],
+  origin: [
+    "https://receiptify-app-wine.vercel.app", // Add allowed origins
+    "http://localhost:3000"
+  ],
+  methods: [
+    "GET", "POST", "PUT", "DELETE", "PATCH" // Allow different methods
+  ],
   credentials: true
 }));
-// app.use('/api/user', authenticateToken);
-// app.use('/api/upload', authenticateToken);
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
