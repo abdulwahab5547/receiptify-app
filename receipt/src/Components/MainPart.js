@@ -71,66 +71,126 @@ function MainPart({currency}) {
 
     const [file, setFile] = useState(null);
 
+    // const handleDownload = async () => {
+    //     const element = document.getElementById('the-receipt');
+    //     if (element) {
+    //       html2canvas(element).then(async (canvas) => {
+    //         // Create an image URL from the canvas
+    //         const imgData = canvas.toDataURL('image/png');
+    
+    //         // Create a link element
+    //         const link = document.createElement('a');
+    //         link.href = imgData;
+    //         link.download = 'receipt.png';
+    
+    //         // Append the link to the body (required for Firefox)
+    //         document.body.appendChild(link);
+    
+    //         // Trigger the download
+    //         link.click();
+    
+    //         // Remove the link from the body
+    //         document.body.removeChild(link);
+    
+    //         const response = await fetch(imgData);
+    //         const blob = await response.blob();
+    //         const file = new File([blob], 'receipt.png', { type: 'image/png' });
+    
+    //         // Set the file state
+    //         setFile(file);
+    
+    //         // Upload the file
+    //         handleUpload(file);
+    //       });
+    //     }
+    //   };
+
+    // const handleUpload = async (file) => {
+    //     if (!file) {
+    //     alert('Please select a file first.');
+    //     return;
+    //     }
+
+    //     const formData = new FormData();
+    //     formData.append('file', file);
+
+    //     try {
+    //         const token = localStorage.getItem('authToken');
+    //         const response = await axios.post('https://receiptify-backend.vercel.app/upload', formData, {
+    //             headers: {
+    //             'Content-Type': 'multipart/form-data',
+    //             Authorization: `Bearer ${token}`
+    //             },
+    //         });
+
+    //     if (response.status === 200) {
+    //         console.log('File uploaded successfully:', response.data.url);
+            
+    //     } else {
+    //         console.error('Failed to upload file');
+    //     }
+    //     } catch (error) {
+    //     console.error('Error uploading file:', error);
+    //     }
+    // };
+
     const handleDownload = async () => {
         const element = document.getElementById('the-receipt');
         if (element) {
-          html2canvas(element).then(async (canvas) => {
-            // Create an image URL from the canvas
-            const imgData = canvas.toDataURL('image/png');
-    
-            // Create a link element
-            const link = document.createElement('a');
-            link.href = imgData;
-            link.download = 'receipt.png';
-    
-            // Append the link to the body (required for Firefox)
-            document.body.appendChild(link);
-    
-            // Trigger the download
-            link.click();
-    
-            // Remove the link from the body
-            document.body.removeChild(link);
-    
-            const response = await fetch(imgData);
-            const blob = await response.blob();
-            const file = new File([blob], 'receipt.png', { type: 'image/png' });
-    
-            // Set the file state
-            setFile(file);
-    
-            // Upload the file
-            handleUpload(file);
-          });
+            html2canvas(element).then(async (canvas) => {
+                // Create an image URL from the canvas
+                const imgData = canvas.toDataURL('image/png');
+        
+                // Create a link element to download the image
+                const link = document.createElement('a');
+                link.href = imgData;
+                link.download = 'receipt.png';
+        
+                // Append the link to the body (required for Firefox)
+                document.body.appendChild(link);
+        
+                // Trigger the download
+                link.click();
+        
+                // Remove the link from the body
+                document.body.removeChild(link);
+        
+                // Create a file from the canvas image data
+                const response = await fetch(imgData);
+                const blob = await response.blob();
+                const file = new File([blob], 'receipt.png', { type: 'image/png' });
+        
+                // Upload the file
+                handleUpload(file);
+            });
         }
-      };
+    };
 
     const handleUpload = async (file) => {
         if (!file) {
-        alert('Please select a file first.');
-        return;
+            alert('Please select a file first.');
+            return;
         }
-
+    
         const formData = new FormData();
         formData.append('file', file);
-
+    
         try {
             const token = localStorage.getItem('authToken');
             const response = await axios.post('https://receiptify-backend.vercel.app/upload', formData, {
                 headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${token}`
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`
                 },
             });
-
-        if (response.status === 200) {
-            console.log('File uploaded successfully:', response.data.url);
-            
-        } else {
-            console.error('Failed to upload file');
-        }
+    
+            if (response.status === 200) {
+                console.log('File uploaded successfully:', response.data.url);
+            } else {
+                console.error('Failed to upload file');
+            }
         } catch (error) {
-        console.error('Error uploading file:', error);
+            console.error('Error uploading file:', error);
         }
     };
 
