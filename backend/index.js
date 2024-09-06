@@ -57,7 +57,7 @@ const memoryStorage = multer.memoryStorage();
 const emailUpload = multer({ storage: memoryStorage });
 
 // Endpoint to trigger email sending
-app.post('/send-email', emailUpload.single('receipt'), (req, res) => {
+router.post('/send-email', emailUpload.single('receipt'), (req, res) => {
   const { email } = req.body;
   const receiptFile = req.file;
 
@@ -81,7 +81,7 @@ app.post('/send-email', emailUpload.single('receipt'), (req, res) => {
 
 // Upload endpoint
 
-app.post('/upload', authenticateToken, upload.single('file'), async (req, res) => {
+router.post('/upload', authenticateToken, upload.single('file'), async (req, res) => {
   try {
     const localFilePath = req.file.path;
     const result = await uploadOnCloudinary(localFilePath);
@@ -106,7 +106,7 @@ app.post('/upload', authenticateToken, upload.single('file'), async (req, res) =
 });
 
 
-app.post('/api/signup', async (req, res) => {
+router.post('/api/signup', async (req, res) => {
     try {
         const { firstName, lastName, email, password, companyName, companySlogan } = req.body;
         const newUser = new User({ firstName, lastName, email, password, companyName, companySlogan });
@@ -117,7 +117,7 @@ app.post('/api/signup', async (req, res) => {
     }
 });
 
-app.post('/api/login', async (req, res) => {
+router.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   try {
       const user = await findOne({ email }); // Ensure findOne is correctly querying the user
@@ -155,7 +155,7 @@ function authenticateToken(req, res, next) {
 }
 
 // Example protected route
-app.get('/api/user', authenticateToken, async (req, res) => {
+router.get('/api/user', authenticateToken, async (req, res) => {
   try {
       const user = await findById(req.user.id, 'firstName lastName email password companyName companySlogan'); // Specify the fields you want to retrieve
       if (!user) {
@@ -169,7 +169,7 @@ app.get('/api/user', authenticateToken, async (req, res) => {
 
 // Fetch receipt history
 
-app.get('/api/user/receipts', authenticateToken, async (req, res) => {
+router.get('/api/user/receipts', authenticateToken, async (req, res) => {
   try {
     // Use the user ID from the token
     const user = await User.findById(req.user.id); // Ensure you use req.user.id or req.user._id depending on the token payload
@@ -198,7 +198,7 @@ router.get('/api/user', authenticateToken, async (req, res) => {
 });
 
 // Update user details
-app.put('/api/user', authenticateToken, async (req, res) => {
+router.put('/api/user', authenticateToken, async (req, res) => {
   try {
       const { firstName, lastName, email, password, companyName, companySlogan } = req.body;
 
@@ -218,7 +218,7 @@ app.put('/api/user', authenticateToken, async (req, res) => {
   }
 });
 
-app.get('/create-user', async (req, res) => {
+router.get('/create-user', async (req, res) => {
     try {
       const newUser = new User({
         firstName: 'Abdul',
