@@ -116,7 +116,7 @@ function MainPart({currency}) {
 
         try {
             const token = localStorage.getItem('authToken');
-            const response = await axios.post('http://localhost:8000/upload', formData, {
+            const response = await axios.post('https://receiptify-backend.vercel.app/upload', formData, {
                 headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token}`
@@ -155,7 +155,7 @@ function MainPart({currency}) {
                     return;
                 }
     
-                const response = await axios.get('http://localhost:8000/api/user', {
+                const response = await axios.get('https://receiptify-backend.vercel.app/api/user', {
                     headers: {
                         Authorization: `Bearer ${token}` // Include token in Authorization header
                     }
